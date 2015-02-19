@@ -6,8 +6,8 @@
 <html>
 <head>
 <%
-	String id = request.getParameter("id");
-	String name = request.getParameter("name");
+	String id = (String)session.getAttribute("id");
+	String name = (String)session.getAttribute("name");
 %>
 <title>우리의 첫번째 웹앱</title>
 </head>
@@ -28,6 +28,10 @@ ID : <input type="text" name="id"><br/>
 %>
 ID : <%= id %><br/>
 이름 : <%= name %><br/>
+<br/>
+<form action="./logout.jsp" method="POST">
+<input type="submit" value="로그아웃">
+</form>
 <%
 	}
 %>

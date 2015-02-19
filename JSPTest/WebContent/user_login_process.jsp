@@ -32,11 +32,13 @@
 		   while (rs.next()) {
 			   if (id != null && id.equals(rs.getString("id"))) {
 				   if (password != null && password.equals(rs.getString("password"))) {
+					   session.setAttribute("id", id);
+					   session.setAttribute("name", rs.getString("name"));
 %>
 						반갑습니다. <%= rs.getString("name") %> 님<br/>
 						<form action="./index.jsp" method="POST">
-						<input type="hidden" name="id" value="<%= id %>">
-						<input type="hidden" name="name" value="<%= rs.getString("name") %>">
+						<!-- <input type="hidden" name="id" value="<%= id %>"> -->
+						<!-- <input type="hidden" name="name" value="<%= rs.getString("name") %>"> -->
 						<input type="submit" value="메인 페이지로 이동">
 						</form>
 <%
