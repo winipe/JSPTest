@@ -20,37 +20,64 @@
 	<a href="./index.jsp">로그인</a>
 <%
 	} else {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
 		try {
 		   Context initContext = new InitialContext();
 		   Context envContext  = (Context)initContext.lookup("java:/comp/env");
 		   DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
+		   
+		   String selectUsers = "select id, password, name from User where id = ? and password = ?";
 		
-		   Connection conn = ds.getConnection();
-		   Statement stmt = conn.createStatement();
-		   ResultSet rs = stmt.executeQuery("select id, password, name from User");
+		   conn = ds.getConnection();
+		   conn.setAutoCommit(false);
 		   
-		   while (rs.next()) {
-			   if (id != null && id.equals(rs.getString("id"))) {
-				   if (password != null && password.equals(rs.getString("password"))) {
-					   session.setAttribute("id", id);
-					   session.setAttribute("name", rs.getString("name"));
+		   ps = conn.prepareStatement(selectUsers);
+		   if (ps != null) {
+			   if (id != null && password != null){
+				   ps.setString(1, id);
+				   ps.setString(2, password);
+				   
+				   ResultSet rs = null;
+				   
+				   try {
+					   rs = ps.executeQuery();
+					   conn.commit();
+					   
+					   if (rs.next()) {
+							if (id.equals(rs.getString("id"))) {
+								if (password.equals(rs.getString("password"))) {
+									session.setAttribute("id", id);
+									session.setAttribute("name", rs.getString("name"));
 %>
-						반갑습니다. <%= rs.getString("name") %> 님<br/>
-						<form action="./index.jsp" method="POST">
-						<!-- <input type="hidden" name="id" value="<%= id %>"> -->
-						<!-- <input type="hidden" name="name" value="<%= rs.getString("name") %>"> -->
-						<input type="submit" value="메인 페이지로 이동">
-						</form>
+									반갑습니다. <%= rs.getString("name") %> 님<br/>
+									<form action="./index.jsp" method="POST">
+									<!-- <input type="hidden" name="id" value="<%= id %>"> -->
+									<!-- <input type="hidden" name="name" value="<%= rs.getString("name") %>"> -->
+									<input type="submit" value="메인 페이지로 이동">
+									</form>
 <%
-				   }
-			   }
-		   }
-		   
-		   rs.close();
-		   stmt.close();
-		   conn.close();
+								}
+							}
+						} else {
+							request.setAttribute("user_not_exist", "사용자 정보가 올바르지 않습니다. 다시 입력해주세요");
+							
+							RequestDispatcher dispatcher = request.getRequestDispatcher("./index.jsp");
+							dispatcher.forward(request, response);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						rs.close();
+					}
+			   	}
+		   	}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			ps.close();
+			conn.close();
 		}
 	}
 %>

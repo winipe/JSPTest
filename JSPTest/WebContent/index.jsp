@@ -8,6 +8,8 @@
 <%
 	String id = (String)session.getAttribute("id");
 	String name = (String)session.getAttribute("name");
+	
+	String user_not_exist = (String)request.getAttribute("user_not_exist");
 %>
 <title>우리의 첫번째 웹앱</title>
 </head>
@@ -16,6 +18,9 @@
 처음으로 만들어 보는 JSP 웹앱 페이지입니다.<br/><br/>
 <%
 	if (id == null || (id.isEmpty() == true)) {
+		if (user_not_exist != null && (user_not_exist.isEmpty() != true)) {
+			out.println("<font color=\"red\">" + user_not_exist + "</font><br/><br/>");
+		}
 %>
 <form action="./user_login_process.jsp" method="POST">
 ID : <input type="text" name="id"><br/>
