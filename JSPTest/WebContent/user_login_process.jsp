@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*, javax.sql.*, javax.naming.*" %>
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:requestEncoding value="UTF-8" />
+
 <html>
 <head>
 <title>회원 로그인 처리</title>
@@ -53,8 +54,8 @@
 %>
 									반갑습니다. <%= rs.getString("name") %> 님<br/>
 									<form action="./index.jsp" method="POST">
-									<!-- <input type="hidden" name="id" value="<%= id %>"> -->
-									<!-- <input type="hidden" name="name" value="<%= rs.getString("name") %>"> -->
+									<!-- <input type="hidden" name="id" value="${id}"> -->
+									<!-- <input type="hidden" name="name" value="${rs.getString("name")}"> -->
 									<input type="submit" value="메인 페이지로 이동">
 									</form>
 <%

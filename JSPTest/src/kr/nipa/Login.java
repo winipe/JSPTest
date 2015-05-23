@@ -1,9 +1,19 @@
 package kr.nipa;
 
+import javax.validation.constraints.*;
+
 public class Login {
+	@NotNull
 	private String id;
+	
+	@NotNull
 	private String name;
+	
+	@NotNull
 	private String email;
+	
+	@NotNull
+	@Size(min=6, max=20)
 	private String password;
 
 	public Login() {}
