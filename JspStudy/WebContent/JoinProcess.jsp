@@ -13,7 +13,7 @@
 	String phone3 = request.getParameter("phone3");
 	String email_id = request.getParameter("email_id");
 	String email_site = request.getParameter("email_site");
-	
+		
 	Context initContext = new InitialContext();
 	Context envContext  = (Context)initContext.lookup("java:/comp/env");
 	DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
@@ -39,9 +39,11 @@
 	if (result == 0) {
 		out.println("회원가입에 실패하였습니다.");
 	} else {
+		session.removeAttribute("id");
+		session.setAttribute("id", id);
 %>
 <b>회원가입을 축하합니다.</b><br>
-<a href="MemberList.jsp">회원 가입 정보 보기</a>
+<input type="button" value="메인페이지로 이동" onclick="location.href='main.jsp'">
 <%
 	}
 

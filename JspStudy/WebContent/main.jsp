@@ -22,7 +22,7 @@
 <tr>
 	<td><input type="button" value="로그아웃" onclick="location.href='Logout.jsp'"></td>
 	<td><input type="submit" value="회원정보 변경"></td>
-	<td><input type="button" value="가입한 회원정보 보기" onclick="location.href='MemberList.jsp'"></td>
+	<td><input type="button" value="가입한 회원정보 보기" onclick="location.href='MemberList.jsp?pageNum=1'"></td>
 </tr>
 </table>
 </form>

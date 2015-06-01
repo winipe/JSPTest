@@ -37,6 +37,7 @@
 	}
 	
 	if (bFind) {
+		session.removeAttribute("id");
 		session.setAttribute("id", rs.getString("id"));
 %>
 <jsp:forward page="main.jsp" />
