@@ -3,7 +3,7 @@
 <body>
 <h1>회원가입 입력폼</h1>
 <br>
-<form method="POST" action="JoinProcess.jsp">
+<form method="POST" action="joinProcess.jsp">
 <table>
 <tr>
 	<td>아이디 : </td><td><input type="text" name="id"></td>
@@ -18,7 +18,9 @@
 	<td>주소 : </td><td><input type="text" size=50 name="address"></td>
 </tr>
 <tr>
-	<td>전화번호 : </td><td><input type="text" size=5 name="phone1">-<input type="text" size=5 name="phone2">-<input type="text" size=5 name="phone3"></td>
+	<td>전화번호 : </td><td><input type="text" size=5 name="phone1">-
+	<input type="text" size=5 name="phone2">-
+	<input type="text" size=5 name="phone3"></td>
 </tr>
 <tr>
 	<td>이메일 : </td><td><input type="text" name="email_id">@<select name="email_site" size="1">
@@ -34,7 +36,8 @@
 	</td>
 </tr>
 <tr>
-	<td><input type="submit" value="가입"></td><td><input type="reset" value="취소"></td>
+	<td><input type="submit" value="가입"></td>
+	<td><input type="button" value="취소" onclick="location.href='javascript:history.back()'"></td>
 </tr>
 </table>
 </form>

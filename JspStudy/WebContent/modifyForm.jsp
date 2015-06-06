@@ -2,9 +2,18 @@
 <%@ page import="java.sql.*, javax.sql.*, javax.naming.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<c:set var="member" value="<%= new kr.nipa.javabeans.MemberBean() %>" />
+<c:set var="member" value="<%=new kr.nipa.javabeans.Member()%>" />
 
 <html>
+<head>
+<script language="text/javascript">
+function confirmDelete(id) {
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		document.location.href='memberDelete.jsp?' + id;
+	}
+}
+</script>
+</head>
 <body>
 <h1>회원정보 수정</h1><br>
 
@@ -41,7 +50,7 @@ catch (Exception e)
 }
 %>
 
-<form name="memberForm" method="POST" action="ModifyProcess.jsp">
+<form name="memberForm" method="POST" action="modifyProcess.jsp">
 <table>
 <tr>
 	<td>아이디 : </td><td style="color:red; font-size:13px;"><input type="text" name="id" value="${member.id}" disabled>* 아이디는 변경할 수 없습니다.</td>
@@ -76,7 +85,8 @@ catch (Exception e)
 	</td>
 </tr>
 <tr>
-	<td><input type="submit" value="수정"></td><td><input type="reset" value="취소" onclick="javascript:history.back()"></td>
+	<td><input type="submit" value="수정"></td>
+	<td><input type="button" value="돌아가기" onclick="javascript:history.back()"></td>
 </tr>
 </table>
 <input type="hidden" name="id" value="${member.id}">
