@@ -3,12 +3,10 @@ package kr.nipa.javabeans;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.servlet.ServletException;
-import javax.sql.DataSource;
+
+import kr.nipa.javabeans.db.DBManager;
 
 public class Login {
 	private String id;
@@ -35,13 +33,9 @@ public class Login {
 		boolean bFind = false;
 		
 		try {
-			Context initContext = new InitialContext();
-			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
-
 			String query = "select * from user where id = ? and pwd = ?";
 
-			conn = ds.getConnection();
+			conn = DBManager.getConnection();
 			ps = conn.prepareStatement(query);
 			ps.setString(1, id);
 			ps.setString(2, pwd);
@@ -58,13 +52,7 @@ public class Login {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		} finally {
-			try {
-				if (rs != null) rs.close();
-				if (ps != null) ps.close();
-				if (conn != null) conn.close();
-			} catch (SQLException e) {
-				// ingnored
-			}
+			DBManager.close(conn, ps, rs);
 		}
 		
 		return bFind;

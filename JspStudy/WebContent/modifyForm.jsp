@@ -90,6 +90,7 @@ catch (Exception e)
 </tr>
 </table>
 <input type="hidden" name="id" value="${member.id}">
+<input type="hidden" name="prevPage" value="modifyForm.jsp">
 </form>
 </body>
 </html>

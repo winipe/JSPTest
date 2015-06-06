@@ -3,14 +3,12 @@ package kr.nipa.javabeans;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.servlet.ServletException;
-import javax.sql.DataSource;
+
+import kr.nipa.javabeans.db.DBManager;
 
 public class Member {
 	private int num;
@@ -112,11 +110,7 @@ public class Member {
 		Member member = null;
 		
 		try {
-			Context initContext = new InitialContext();
-			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
-	
-			conn = ds.getConnection();
+			conn = DBManager.getConnection();
 			
 			String sql = "select * from user where id = ?";
 			
@@ -141,13 +135,7 @@ public class Member {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		} finally {
-			try {
-				if (rs != null) rs.close();
-				if (ps != null) ps.close();
-				if (conn != null) conn.close();
-			} catch (SQLException e) {
-				// ignore exception
-			}
+			DBManager.close(conn, ps, rs);
 		}
 		
 		return member;
@@ -160,11 +148,7 @@ public class Member {
 		boolean bSuccess = false;
 		
 		try {
-			Context initContext = new InitialContext();
-			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
-	
-			conn = ds.getConnection();
+			conn = DBManager.getConnection();
 			
 			String sql = "delete from user where id = ?";
 			
@@ -179,12 +163,7 @@ public class Member {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		} finally {
-			try {
-				if (ps != null) ps.close();
-				if (conn != null) conn.close();
-			} catch (SQLException e) {
-				// ignore exception
-			}
+			DBManager.close(conn, ps);
 		}
 		
 		return bSuccess;
@@ -202,11 +181,7 @@ public class Member {
 			if (pageNumber != null)
 				pageNum = Integer.parseInt(pageNumber);
 			
-			Context initContext = new InitialContext();
-			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
-	
-			conn = ds.getConnection();
+			conn = DBManager.getConnection();
 			
 			final int PAGE_SIZE = 3;
 			
@@ -219,6 +194,8 @@ public class Member {
 			
 			if (rs != null)
 				rs.close();
+			if (stmt != null)
+				stmt.close();
 	
 			int offset = (pageNum - 1) * PAGE_SIZE;
 			totalPage = totalCount / PAGE_SIZE + 1;
@@ -248,14 +225,7 @@ public class Member {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		} finally {
-			try {
-				if (rs != null)	rs.close();
-				if (ps != null) ps.close();
-				if (stmt != null) stmt.close();
-				if (conn != null) conn.close();
-			} catch (Exception e) {
-				// ignore exception
-			}
+			DBManager.close(conn, ps, rs);
 		}
 		
 		return list;

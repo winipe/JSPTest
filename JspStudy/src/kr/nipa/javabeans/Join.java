@@ -3,10 +3,9 @@ package kr.nipa.javabeans;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.servlet.ServletException;
-import javax.sql.DataSource;
+
+import kr.nipa.javabeans.db.DBManager;
 
 public class Join {
 	private String id;
@@ -81,13 +80,9 @@ public class Join {
 		boolean bSuccess = false;
 		
 		try {
-			Context initContext = new InitialContext();
-			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
-	
 			String query = "insert into user (id, name, pwd, address, phone1, phone2, phone3, email_id, email_site) values (?,?,?,?,?,?,?,?,?)";
 
-			conn = ds.getConnection();
+			conn = DBManager.getConnection();
 			ps = conn.prepareStatement(query);
 			ps.setString(1, id);
 			ps.setString(2, name);
@@ -106,12 +101,7 @@ public class Join {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		} finally {
-			try {
-				if (ps != null) ps.close();
-				if (conn != null) conn.close();
-			} catch (Exception e) {
-				// ignore exception
-			}
+			DBManager.close(conn, ps);
 		}
 		
 		return bSuccess;
