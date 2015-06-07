@@ -3,10 +3,10 @@
 <body>
 <h1>회원로그인 폼</h1>
 <br>
-<form name="loginForm" method="POST" action="loginProcess.jsp">
+<form name="loginForm" method="POST" action="MemberServlet?cmd=login">
 <table>
 <tr>
-	<td>아이디</td><td colspan=2><input type="text" name="id"></td>
+	<td>아이디</td><td colspan=2><input type="text" name="id" autofocus></td>
 </tr>
 <tr>
 	<td>비밀번호</td><td colspan=2><input type=password name="pwd"></td>

@@ -14,17 +14,18 @@
 </table>
 </c:when>
 <c:otherwise>
-<form action="modifyForm.jsp?id=${id}" method="POST">
+<form action="MemberServlet?cmd=get&id=${id}&pageNum=1" method="POST">
 <table>
 <tr>
 	<td colspan="3">안녕하세요. ${id} 님!</td>
 </tr>
 <tr>
-	<td><input type="button" value="로그아웃" onclick="location.href='logout.jsp'"></td>
+	<td><input type="button" value="로그아웃" onclick="location.href='MemberServlet?cmd=logout'"></td>
 	<td><input type="submit" value="회원정보 수정"></td>
-	<td><input type="button" value="가입한 회원정보 보기" onclick="location.href='memberList.jsp?pageNum=1'"></td>
+	<td><input type="button" value="가입한 회원정보 보기" onclick="location.href='MemberServlet?cmd=getlist&pageNum=1'"></td>
 </tr>
 </table>
+<input type="hidden" name="prevPage" value="main.jsp">
 </form>
 </c:otherwise>
 </c:choose>

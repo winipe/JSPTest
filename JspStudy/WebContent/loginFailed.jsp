@@ -1,22 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="kr.nipa.javabeans.Login" %>
+<%@ page import="kr.nipa.javabeans.db.MemberDAO" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%
-	request.setCharacterEncoding("UTF-8");
-	session.removeAttribute("id");
-%>
-
-<jsp:useBean id="login" class="kr.nipa.javabeans.Login" />
-<jsp:setProperty name="login" property="*" />
-
-<%
-	boolean bSuccessOfLogin = login.processOfLogin();
-	if (bSuccessOfLogin) {
-		session.setAttribute("id", login.getId());
-		response.sendRedirect("main.jsp");
-	}
-%>
 <html>
 <body>
 <c:if test="${empty id}">

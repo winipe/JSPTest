@@ -1,14 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="kr.nipa.javabeans.Member" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
-<jsp:useBean id="member" class="kr.nipa.javabeans.Member" />
-<jsp:setProperty name="member" property="id" value="${param.id}" />
-
-<%
-	Member memberInfo = member.getMemberInfo();
-	if (memberInfo != null)
-		pageContext.setAttribute("memberInfo", memberInfo);
-%>
 
 <html>
 <body>
@@ -19,9 +10,9 @@
 <input type="button" value="돌아가기" onclick="javascript:histroy.back()">
 </c:when>
 <c:otherwise>
-<form method="POST" action="modifyProcess.jsp">
+<form method="POST" action="MemberServlet?cmd=update">
 <table>
-<tr><td>아이디 : </td><td style="color:red; font-size:13px;"><input type="text" name="id" value="${memberInfo.id}" disabled></td></tr>
+<tr><td>아이디 : </td><td style="color:red; font-size:13px;"><input type="text" name="id" value="${memberInfo.id}" disabled>* 아이디는 변경할 수 없습니다.</td></tr>
 <tr><td>이름 : </td><td><input type="text" name="name" value="${memberInfo.name}"></td></tr>
 <tr><td>비밀번호 : </td><td><input type="password" name="pwd" value="${memberInfo.pwd}"></td></tr>
 <tr><td>주소 : </td><td><input type="text" size=50 name="address" value="${memberInfo.address}"></td></tr>
@@ -48,7 +39,7 @@
 </tr>
 <tr>
 	<td><input type="submit" value="수정"></td>
-	<td><input type="button" value="삭제" onclick="location.href='deleteMember.jsp?id=${param.id}&pageNum=${param.pageNum}'"></td>
+	<td><input type="button" value="삭제" onclick="location.href='MemberServlet?cmd=delete&id=${param.id}&pageNum=${param.pageNum}'"></td>
 	<td><input type="button" value="돌아가기" onclick="javascript:history.back()"></td>
 </tr>
 </table>

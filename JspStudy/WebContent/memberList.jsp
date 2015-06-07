@@ -1,14 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*, javax.sql.*, javax.naming.*, java.util.ArrayList,kr.nipa.javabeans.Member" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<jsp:useBean id="member" class="kr.nipa.javabeans.Member" />
-<jsp:setProperty name="member" property="pageNumber" value="${param.pageNum}" />
-
-<%
-	ArrayList<Member> memberList = member.getMemberList();
-	pageContext.setAttribute("memberList", memberList);
-%>
 
 <html>
 <body>
@@ -34,14 +25,14 @@
 	<td style="border:1px gray solid;">${memberInfo.address }</td>
 	<td style="border:1px gray solid;">${memberInfo.phone1 }-${memberInfo.phone2 }-${memberInfo.phone3 }</td>
 	<td style="border:1px gray solid;">${memberInfo.email_id }@${memberInfo.email_site }</td>
-	<td style="border:1px gray solid;"><input type="button" value="상세보기" onclick="location.href='memberInfo.jsp?id=${memberInfo.id}&pageNum=${param.pageNum}'"></td>
+	<td style="border:1px gray solid;"><input type="button" value="상세보기" onclick="location.href='MemberServlet?cmd=get&id=${memberInfo.id}&pageNum=${param.pageNum}'"></td>
 </tr>
 </c:forEach>
 <tr>
 	<td colspan="6" style="text-align:center;">
-	<c:forEach var="page" begin="1" end="${member.totalPage}" varStatus="status">
+	<c:forEach var="page" begin="1" end="${totalPage}" varStatus="status">
 	<c:choose>
-	<c:when test="${page != param.pageNum}"><a href="memberList.jsp?pageNum=${page}">${page}</a></c:when>
+	<c:when test="${page != param.pageNum}"><a href="MemberServlet?cmd=getlist&pageNum=${page}">${page}</a></c:when>
 	<c:otherwise>${page}</c:otherwise>
 	</c:choose>
 	<c:if test="${not status.last}">&nbsp;</c:if></c:forEach>

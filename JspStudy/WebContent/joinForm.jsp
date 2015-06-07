@@ -3,7 +3,7 @@
 <body>
 <h1>회원가입 입력폼</h1>
 <br>
-<form method="POST" action="joinProcess.jsp">
+<form method="POST" action="MemberServlet?cmd=join">
 <table>
 <tr>
 	<td>아이디 : </td><td><input type="text" name="id"></td>
